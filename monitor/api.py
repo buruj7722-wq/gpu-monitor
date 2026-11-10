@@ -92,7 +92,8 @@ def create_app(settings: Settings | None = None, pipeline: Pipeline | None = Non
             )
         latest = visible_snapshot(runtime)
         degraded = (
-            latest.gpu.source.status != "ok"
+            not latest.gpu.devices
+            or latest.gpu.source.status != "ok"
             or latest.system.source.status != "ok"
             or latest.storage.status != "ok"
         )

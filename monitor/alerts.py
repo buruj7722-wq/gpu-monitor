@@ -67,6 +67,18 @@ class AlertEngine:
                     state.recovery_since = mono
                 if mono - state.recovery_since < self.config.recovery_seconds:
                     return
+                if severity == "warning":
+                    state.active = Alert(
+                        id=key,
+                        severity="warning",
+                        message=message,
+                        since=wall,
+                        value=value,
+                        threshold=warning,
+                    )
+                    state.pending = None
+                    state.recovery_since = None
+                    return
                 state.active = None
                 state.recovery_since = None
         if severity is None:

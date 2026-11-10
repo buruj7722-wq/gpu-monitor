@@ -241,6 +241,13 @@ class GPUCollector:
             ("pcie_max_width", "nvmlDeviceGetMaxPcieLinkWidth"),
         ]:
             values[key] = integer(key, fn)
+        for key, value in values.items():
+            if value is None:
+                errors.setdefault(key, "not_supported")
+        if utilization is not None:
+            for key in ["gpu_util_percent", "memory_activity_percent"]:
+                if values[key] is None:
+                    errors[key] = "invalid_value"
         values["errors"] = errors
         values["status"] = (
             "degraded" if any(e != "not_supported" for e in errors.values()) else "ok"

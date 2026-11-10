@@ -140,7 +140,20 @@ class ProcessCollector:
                                 errors={"gpu_util_percent": "not_supported"},
                             )
                         )
-        self.cached = [self._enrich(row) for row in rows]
+        metadata: dict[int, GPUProcess] = {}
+        self.cached = []
+        for row in rows:
+            if row.pid not in metadata:
+                metadata[row.pid] = self._enrich(row)
+            enriched = metadata[row.pid]
+            fields = {
+                key: getattr(enriched, key)
+                for key in ["name", "start_time", "ram_bytes", "cpu_percent"]
+            }
+            field_errors = dict(row.errors)
+            if "process" in enriched.errors:
+                field_errors["process"] = enriched.errors["process"]
+            self.cached.append(row.model_copy(update={**fields, "errors": field_errors}))
         self.processes = {
             pid: p for pid, p in self.processes.items() if pid in {r.pid for r in rows}
         }

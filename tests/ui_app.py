@@ -6,7 +6,7 @@ from pathlib import Path
 
 from monitor.api import create_app
 from monitor.config import Settings
-from tests.test_api import FakePipeline
+from tests.fakes import FakePipeline
 
 app = create_app(
     Settings(sample_seconds=0.1, allowed_origins=["http://127.0.0.1:5501"]),

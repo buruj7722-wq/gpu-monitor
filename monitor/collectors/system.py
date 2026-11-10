@@ -149,6 +149,9 @@ class SystemCollector:
                     total_delta += dt
                     idle_delta += di
         self.cpu_previous = current
+        if len(per_core) != len(current):
+            per_core = []
+            total_delta = idle_delta = 0
         try:
             frequency = self.ps.cpu_freq()
             mhz = number(frequency.current) if frequency else None

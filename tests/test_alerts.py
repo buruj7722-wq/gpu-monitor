@@ -43,3 +43,10 @@ def test_gpu_outage_duration():
     assert not engine.evaluate(Snapshot(timestamp=0), 0)
     assert not engine.evaluate(Snapshot(timestamp=9), 9)
     assert engine.evaluate(Snapshot(timestamp=10), 10)[0].id == "gpu/unavailable"
+
+
+def test_critical_downgrade_has_no_unalerted_gap():
+    engine = AlertEngine(AlertConfig(sustain_seconds=0))
+    assert engine.evaluate(sample(0, 99), 0)[0].severity == "critical"
+    assert engine.evaluate(sample(1, 91), 1)[0].severity == "critical"
+    assert engine.evaluate(sample(11, 91), 11)[0].severity == "warning"

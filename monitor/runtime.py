@@ -91,7 +91,11 @@ class Runtime:
                     }
                 )
                 snapshot = snapshot.model_copy(
-                    update={"sequence": self.count, "observer": observer}
+                    update={
+                        "sequence": self.count,
+                        "observer": observer,
+                        "published_at": time.time(),
+                    }
                 )
                 self.latest = snapshot
                 self.last_completed = time.monotonic()
