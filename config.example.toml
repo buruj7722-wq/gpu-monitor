@@ -1,0 +1,54 @@
+# Copy to /etc/gpu-monitor/config.toml for systemd; secrets belong outside Git.
+sample_seconds = 1
+process_seconds = 5
+gpu_fallback = true
+database = "/var/lib/gpu-monitor/history.sqlite3"
+retention_days = 7
+stale_seconds = 5
+activity_threshold = 5
+activity_window_seconds = 300
+disk_include = []
+disk_exclude = ["/snap", "/boot/efi", "/run/user"]
+network_exclude = ["lo"]
+max_connections = 100
+# Add the exact LAN hostname and HTTPS origin before enabling Nginx.
+allowed_hosts = ["127.0.0.1", "localhost", "[::1]"]
+allowed_origins = ["http://127.0.0.1:5000", "http://localhost:5000"]
+
+[alerts]
+sustain_seconds = 30
+recovery_seconds = 10
+hysteresis_percent = 5
+hysteresis_c = 3
+gpu_unavailable_seconds = 10
+network_interfaces = []
+# Optional overrides: set BOTH values only after reviewing hardware/site limits.
+# temperature_warning_c = 83
+# temperature_critical_c = 88
+
+[alerts.cpu]
+warning = 90
+critical = 98
+[alerts.ram]
+warning = 90
+critical = 98
+[alerts.vram]
+warning = 90
+critical = 98
+[alerts.utilization]
+warning = 90
+critical = 98
+[alerts.power]
+warning = 90
+critical = 98
+[alerts.disk]
+warning = 85
+critical = 95
+
+[lmstudio]
+enabled = false
+base_url = "http://127.0.0.1:1234"
+interval_seconds = 15
+timeout_seconds = 2
+max_response_bytes = 1048576
+# token_env = "LM_STUDIO_API_TOKEN"  # value comes from a protected EnvironmentFile

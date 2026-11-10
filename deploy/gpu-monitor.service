@@ -1,0 +1,45 @@
+[Unit]
+Description=NVIDIA GPU and Ubuntu monitoring
+After=network.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=gpu-monitor
+Group=gpu-monitor
+WorkingDirectory=/var/lib/gpu-monitor
+ExecStart=/opt/gpu-monitor/venv/bin/gpu-monitor
+Environment=GPU_MONITOR_CONFIG=/etc/gpu-monitor/config.toml
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PATH=/usr/sbin:/usr/bin:/sbin:/bin
+EnvironmentFile=-/etc/gpu-monitor/secrets.env
+StateDirectory=gpu-monitor
+StateDirectoryMode=0750
+UMask=0077
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+# NVML needs the actual NVIDIA device nodes; do not enable PrivateDevices.
+PrivateDevices=false
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+AmbientCapabilities=
+ReadWritePaths=/var/lib/gpu-monitor
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=gpu-monitor
+
+[Install]
+WantedBy=multi-user.target

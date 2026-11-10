@@ -42,6 +42,10 @@ jobs:
           .venv/bin/mypy monitor app.py gpu.py
           npm run typecheck
           npm run format:check
+      - name: Install isolated proxy test tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y nginx openssl
       - name: Unit, integration, API and WebSocket tests (mock NVML)
         run: .venv/bin/pytest --cov=monitor --cov-report=term-missing --cov-report=xml
       - name: Verify vendored assets and build
