@@ -1,11 +1,15 @@
 """Read-only NVML telemetry with per-field isolation and one XML fallback query."""
 
 import logging
-import subprocess
+
+# Fixed read-only executable; no shell or user input.
+import subprocess  # nosec B404
 import time
 from collections.abc import Callable
 from typing import Any, Literal
-from xml.etree.ElementTree import Element
+
+# Annotation only; parsing uses defusedxml.
+from xml.etree.ElementTree import Element  # nosec B405
 
 import pynvml
 from defusedxml import ElementTree

@@ -35,6 +35,8 @@ PSEUDO = {
     "autofs",
     "nsfs",
     "efivarfs",
+    "fuse.portal",
+    "fuse.gvfsd-fuse",
 }
 
 

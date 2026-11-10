@@ -12,6 +12,7 @@ def main() -> None:
         factory=True,
         host="127.0.0.1",
         port=5000,
+        log_config=None,
         workers=1,
         access_log=False,
         proxy_headers=True,

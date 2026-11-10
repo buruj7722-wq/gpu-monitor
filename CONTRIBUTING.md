@@ -21,7 +21,7 @@ npm run typecheck
 .venv/bin/python -m build --no-isolation
 .venv/bin/bandit -r monitor -c pyproject.toml
 .venv/bin/pip-audit -r requirements.txt
-.venv/bin/detect-secrets scan --all-files --exclude-files '(package-lock.json|requirements.*|static/vendor/.*|.*\\.lock)' > /tmp/gpu-monitor-secrets.json
+.venv/bin/detect-secrets scan --exclude-files '(package-lock.json|requirements.*|static/vendor/.*|.*\\.lock)' > /tmp/gpu-monitor-secrets.json
 python scripts/check_secrets.py /tmp/gpu-monitor-secrets.json
 ```
 

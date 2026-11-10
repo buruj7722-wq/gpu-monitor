@@ -60,4 +60,4 @@ def test_errors_and_size_limit(status, body):
 
 def test_credentials_not_allowed_in_url():
     with pytest.raises(ValidationError):
-        LMConfig(base_url="http://user:password@localhost:1234")
+        LMConfig(base_url="http://user:password@localhost:1234")  # pragma: allowlist secret

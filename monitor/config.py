@@ -81,7 +81,7 @@ class Settings(ConfigModel):
     activity_threshold: float = Field(default=5, ge=0, le=100)
     activity_window_seconds: int = Field(default=300, ge=30, le=3600)
     disk_include: list[str] = Field(default_factory=list)
-    disk_exclude: list[str] = Field(default_factory=lambda: ["/snap", "/boot/efi"])
+    disk_exclude: list[str] = Field(default_factory=lambda: ["/snap", "/boot/efi", "/run/user"])
     network_exclude: list[str] = Field(default_factory=lambda: ["lo"])
     allowed_hosts: list[str] = Field(default_factory=lambda: ["127.0.0.1", "localhost", "[::1]"])
     allowed_origins: list[str] = Field(

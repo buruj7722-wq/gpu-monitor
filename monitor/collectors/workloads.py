@@ -102,8 +102,8 @@ class ProcessCollector:
                         if value is not None:
                             usage[sample.pid] = value
             except Exception:
-                # Process utilization is optional; never apportion device utilization.
-                pass
+                # Discard an incomplete optional utilization result; never apportion load.
+                usage = {}
             for pid, (kinds, memory) in merged.items():
                 rows.append(
                     GPUProcess(
