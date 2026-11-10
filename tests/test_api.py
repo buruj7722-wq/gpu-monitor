@@ -67,3 +67,15 @@ def test_websocket_disconnect_reconnect_and_origin(tmp_path):
             ):
                 pass
     assert not app.state.runtime.clients
+
+
+def test_metrics_are_not_ready_before_first_sample(tmp_path):
+    app, _ = make_app(tmp_path)
+    # No lifespan context: the collector has not started. HTML availability is
+    # deliberately independent from metrics readiness.
+    client = TestClient(app)
+    assert client.get("/").status_code == 200
+    assert client.get("/api/health").status_code == 503
+    response = client.get("/api/metrics")
+    assert response.status_code == 503
+    assert response.json()["detail"] == "collector_initializing"

@@ -111,7 +111,12 @@ def test_tls_auth_protects_http_and_websocket():
             with httpx.Client(verify=context, trust_env=False, timeout=2) as client:
                 for _ in range(100):
                     try:
-                        if client.get(base, auth=("fixture", test_password)).status_code == 200:
+                        if (
+                            client.get(
+                                base + "/api/metrics", auth=("fixture", test_password)
+                            ).status_code
+                            == 200
+                        ):
                             break
                     except httpx.HTTPError:
                         pass
