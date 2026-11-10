@@ -1,68 +1,42 @@
-from pynvml import *
-import psutil
+"""Legacy API projections. No initialization or hardware polling at import time."""
 
-nvmlInit()
+from monitor.models import GPUReading
 
-def get_gpu():
 
-    handle = nvmlDeviceGetHandleByIndex(0)
+def get_gpu(reading: GPUReading | None = None) -> dict[str, object]:
+    gpu = reading.devices[0] if reading and reading.devices else None
 
-    memory = nvmlDeviceGetMemoryInfo(handle)
-    utilization = nvmlDeviceGetUtilizationRates(handle)
+    def mib(value: int | None) -> int | None:
+        return round(value / 1024**2) if value is not None else None
 
-    try:
-        fan = nvmlDeviceGetFanSpeed(handle)
-    except:
-        fan = 0
-
-    try:
-        power = nvmlDeviceGetPowerUsage(handle) / 1000
-        power_limit = nvmlDeviceGetEnforcedPowerLimit(handle) / 1000
-    except:
-        power = 0
-        power_limit = 0
-
-    gpu = {
-        "name": nvmlDeviceGetName(handle),
-        "temperature": nvmlDeviceGetTemperature(handle, NVML_TEMPERATURE_GPU),
-        "gpu_util": utilization.gpu,
-        "memory_util": utilization.memory,
-        "memory_used": round(memory.used / 1024 / 1024),
-        "memory_total": round(memory.total / 1024 / 1024),
-        "power": round(power,1),
-        "power_limit": round(power_limit,1),
-        "fan": fan,
-        "driver": nvmlSystemGetDriverVersion(),
-        "cuda": nvmlSystemGetCudaDriverVersion_v2()
+    return {
+        "name": gpu.name if gpu else None,
+        "temperature": gpu.temperature_c if gpu else None,
+        "gpu_util": gpu.gpu_util_percent if gpu else None,
+        "memory_util": gpu.memory_activity_percent if gpu else None,
+        "memory_used": mib(gpu.memory_used_bytes) if gpu else None,
+        "memory_total": mib(gpu.memory_total_bytes) if gpu else None,
+        "power": gpu.power_w if gpu else None,
+        "power_limit": gpu.power_limit_w if gpu else None,
+        "fan": gpu.fan_percent if gpu else None,
+        "driver": gpu.driver if gpu else None,
+        "cuda": gpu.cuda_driver if gpu else None,
+        "status": reading.source.status if reading else "initializing",
     }
 
-    return gpu
 
-
-def get_processes():
-
-    handle = nvmlDeviceGetHandleByIndex(0)
-
-    processes = []
-
-    try:
-        running = nvmlDeviceGetComputeRunningProcesses(handle)
-
-        for p in running:
-
-            try:
-                proc = psutil.Process(p.pid)
-
-                processes.append({
-                    "pid": p.pid,
-                    "name": proc.name(),
-                    "memory": round(p.usedGpuMemory / 1024 / 1024)
-                })
-
-            except:
-                pass
-
-    except:
-        pass
-
-    return processes
+def get_processes(reading: GPUReading | None = None) -> list[dict[str, object]]:
+    if not reading or not reading.devices:
+        return []
+    uuid = reading.devices[0].uuid
+    return [
+        {
+            "pid": p.pid,
+            "name": p.name,
+            "memory": round(p.gpu_memory_bytes / 1024**2)
+            if p.gpu_memory_bytes is not None
+            else None,
+        }
+        for p in reading.processes
+        if p.gpu_uuid == uuid
+    ]

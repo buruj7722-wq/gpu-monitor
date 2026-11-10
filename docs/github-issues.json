@@ -1,0 +1,77 @@
+{
+  "L01": {
+    "number": 1,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/1",
+    "title": "[Documentation] Audit and technology decisions"
+  },
+  "L02": {
+    "number": 2,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/2",
+    "title": "[Enhancement] Contributor and GitHub governance"
+  },
+  "L03": {
+    "number": 3,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/3",
+    "title": "[Refactor] Typed collection runtime"
+  },
+  "L04": {
+    "number": 4,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/4",
+    "title": "[Feature] Reliable multi-GPU telemetry"
+  },
+  "L05": {
+    "number": 5,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/5",
+    "title": "[Feature] Ubuntu resource collectors"
+  },
+  "L06": {
+    "number": 6,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/6",
+    "title": "[Feature] GPU process and activity analysis"
+  },
+  "L07": {
+    "number": 7,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/7",
+    "title": "[Feature] Optional read-only LM Studio adapter"
+  },
+  "L08": {
+    "number": 8,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/8",
+    "title": "[Feature] Bounded historical metrics"
+  },
+  "L09": {
+    "number": 9,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/9",
+    "title": "[Feature] Stable configurable alert states"
+  },
+  "L10": {
+    "number": 10,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/10",
+    "title": "[Feature] Cached REST and WebSocket API"
+  },
+  "L11": {
+    "number": 11,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/11",
+    "title": "[Feature] Responsive Arabic monitoring dashboard"
+  },
+  "L12": {
+    "number": 12,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/12",
+    "title": "[Enhancement] Automated quality and security gates"
+  },
+  "L13": {
+    "number": 13,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/13",
+    "title": "[Testing] Integration and monitoring budget validation"
+  },
+  "L14": {
+    "number": 14,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/14",
+    "title": "[Feature] Native secure deployment and recovery"
+  },
+  "L15": {
+    "number": 15,
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/issues/15",
+    "title": "[Documentation] Release readiness and operator documentation"
+  }
+}

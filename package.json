@@ -1,0 +1,17 @@
+{
+  "name": "gpu-monitor-dashboard",
+  "private": true,
+  "version": "0.5.0-dev.0",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "vendor": "python3 scripts/vendor_chart.py",
+    "test:browser": "playwright test",
+    "format:check": "prettier --check static/app.js static/style.css static/types.d.ts templates/index.html"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0",
+    "chart.js": "4.5.1",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3"
+  }
+}

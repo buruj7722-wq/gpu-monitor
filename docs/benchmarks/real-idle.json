@@ -1,0 +1,81 @@
+{
+  "label": "real-idle",
+  "requested_clients": 20,
+  "seconds": 900.0,
+  "warmup_seconds": 30.0,
+  "api_ms": {
+    "count": 899,
+    "mean": 6.986721632479653,
+    "p95": 8.20077900425531,
+    "maximum": 29.00106000015512
+  },
+  "websocket_delivery_ms": {
+    "count": 18000,
+    "mean": 12.193174454900953,
+    "p95": 19.005298614501953,
+    "maximum": 37.7500057220459
+  },
+  "process_cpu_percent": {
+    "count": 899,
+    "mean": 4.0066740823136815,
+    "p95": 5.0,
+    "maximum": 8.0
+  },
+  "rss_bytes": {
+    "count": 899,
+    "mean": 93665911.03003336,
+    "p95": 95801344.0,
+    "maximum": 95809536.0
+  },
+  "rss_growth_bytes": 10006528.0,
+  "collection_ms": {
+    "count": 899,
+    "mean": 16.450046156859386,
+    "p95": 19.0068079973571,
+    "maximum": 21.988280001096427
+  },
+  "connections": {
+    "count": 899,
+    "mean": 21.0,
+    "p95": 21.0,
+    "maximum": 21.0
+  },
+  "counter_deltas": {
+    "dropped_samples": 0,
+    "replaced_messages": 0,
+    "collection_errors": 0,
+    "collection_count": 899,
+    "database_write_bytes": 397312,
+    "database_write_operations": 15
+  },
+  "client_messages": [
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900,
+    900
+  ],
+  "client_errors": [],
+  "database_bytes_per_minute": 26487.466666666667,
+  "delivery_clock_note": "Client and server must share a synchronized clock. Same-host measurements include JSON transfer and decode.",
+  "hardware_validation": "Read-only NVML test passed on NVIDIA A40 with driver 595.91.07; this benchmark did not create AI load.",
+  "notes": [
+    "20 benchmark clients plus one existing interactive browser = 21 observed connections.",
+    "RSS grew while the bounded ring filled; the following 60-second post-warmup check grew only 8192 bytes. See memory-tail.json."
+  ]
+}

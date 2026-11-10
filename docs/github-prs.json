@@ -1,0 +1,154 @@
+[
+  {
+    "local_id": "L01",
+    "issue": 1,
+    "head": "docs/local-l01-architecture",
+    "base": "main",
+    "title": "Record architecture decisions and baseline audit",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/16"
+  },
+  {
+    "local_id": "L02",
+    "issue": 2,
+    "head": "chore/local-l02-governance",
+    "base": "docs/local-l01-architecture",
+    "title": "Define issue tracking and contribution governance",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/17"
+  },
+  {
+    "local_id": "L03",
+    "issue": 3,
+    "head": "refactor/local-l03-core",
+    "base": "chore/local-l02-governance",
+    "title": "Introduce typed shared collection runtime",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/18"
+  },
+  {
+    "local_id": "L04",
+    "issue": 4,
+    "head": "feature/local-l04-gpu",
+    "base": "refactor/local-l03-core",
+    "title": "Collect multi-GPU NVML telemetry with recovery",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/19"
+  },
+  {
+    "local_id": "L05",
+    "issue": 5,
+    "head": "feature/local-l05-server",
+    "base": "feature/local-l04-gpu",
+    "title": "Monitor Ubuntu CPU memory storage and network",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/20"
+  },
+  {
+    "local_id": "L06",
+    "issue": 6,
+    "head": "feature/local-l06-workloads",
+    "base": "feature/local-l05-server",
+    "title": "Monitor GPU processes and sampled workload activity",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/21"
+  },
+  {
+    "local_id": "L07",
+    "issue": 7,
+    "head": "feature/local-l07-lmstudio",
+    "base": "feature/local-l06-workloads",
+    "title": "Add opt-in read-only LM Studio model listings",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/22"
+  },
+  {
+    "local_id": "L08",
+    "issue": 8,
+    "head": "feature/local-l08-history",
+    "base": "feature/local-l07-lmstudio",
+    "title": "Persist bounded minute telemetry aggregates",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/23"
+  },
+  {
+    "local_id": "L09",
+    "issue": 9,
+    "head": "feature/local-l09-alerts",
+    "base": "feature/local-l08-history",
+    "title": "Evaluate sustained configurable monitoring alerts",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/24"
+  },
+  {
+    "local_id": "L10",
+    "issue": 10,
+    "head": "feature/local-l10-api",
+    "base": "feature/local-l09-alerts",
+    "title": "Expose cached REST APIs and shared WebSocket streaming",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/25"
+  },
+  {
+    "local_id": "L11",
+    "issue": 11,
+    "head": "feature/local-l11-dashboard",
+    "base": "feature/local-l10-api",
+    "title": "Deliver a bilingual responsive monitoring dashboard",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/26"
+  },
+  {
+    "local_id": "L12",
+    "issue": 12,
+    "head": "chore/local-l12-ci",
+    "base": "feature/local-l11-dashboard",
+    "title": "Enforce pinned quality and security checks",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/27"
+  },
+  {
+    "local_id": "L13",
+    "issue": 13,
+    "head": "test/local-l13-validation",
+    "base": "chore/local-l12-ci",
+    "title": "Validate failures concurrency and monitoring overhead",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/28"
+  },
+  {
+    "local_id": "L14",
+    "issue": 14,
+    "head": "feature/local-l14-deployment",
+    "base": "test/local-l13-validation",
+    "title": "Prepare unprivileged systemd TLS proxy and recovery",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/29"
+  },
+  {
+    "local_id": "FIX10",
+    "issue": 10,
+    "head": "fix/10-websocket-accept-cleanup",
+    "base": "feature/local-l14-deployment",
+    "title": "Release subscriptions when WebSocket acceptance fails",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/30"
+  },
+  {
+    "local_id": "L15",
+    "issue": 15,
+    "head": "docs/local-l15-readiness",
+    "base": "fix/10-websocket-accept-cleanup",
+    "title": "Document measured readiness and link delivery issues",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/31"
+  },
+  {
+    "local_id": "CI12",
+    "issue": 12,
+    "head": "ci/12-publication-validation",
+    "base": "docs/local-l15-readiness",
+    "title": "Run integration CI before default-branch merge",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/32"
+  },
+  {
+    "local_id": "INTEGRATION15",
+    "issue": 15,
+    "head": "docs/15-publication-results",
+    "base": "main",
+    "title": "Integrate A40 and Ubuntu monitoring platform",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/33"
+  },
+  {
+    "local_id": "CANCEL10",
+    "issue": 10,
+    "head": "fix/10-websocket-cancellation",
+    "base": "ci/12-publication-validation",
+    "title": "Drain WebSocket tasks under ASGI cancellation",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/34"
+  }
+]
