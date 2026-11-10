@@ -1,0 +1,52 @@
+name: Engineering task
+description: Feature, bug, enhancement, refactor, performance, security, documentation, testing or debt
+title: "[Type] "
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options: [Feature, Bug, Enhancement, Refactor, Performance, Security, Documentation, Testing, Technical Debt]
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Behavior
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: Observable, testable completion conditions
+    validations:
+      required: true
+  - type: textarea
+    id: technical
+    attributes:
+      label: Technical Notes
+  - type: textarea
+    id: testing
+    attributes:
+      label: Testing Requirements
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
