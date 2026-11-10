@@ -83,6 +83,7 @@ class GPUCollector:
         self.handles: dict[str, Any] = {}
         self.identity_cache: dict[int, str] = {}
         self._fatal = False
+        self.fallback_xml: str | None = None
 
     def close(self) -> None:
         if self.initialized:
@@ -247,6 +248,7 @@ class GPUCollector:
         mono = time.monotonic() if monotonic is None else monotonic
         failure = "nvml_reconnecting"
         self.handles.clear()
+        self.fallback_xml = None
         try:
             if not self.initialized and mono >= self.next_retry:
                 self.nvml.nvmlInit()
@@ -296,7 +298,8 @@ class GPUCollector:
             logger.warning("nvml_unavailable:%s", failure)
         if self.fallback and mono >= self.fallback_retry:
             try:
-                devices = parse_smi(self.smi())
+                self.fallback_xml = self.smi()
+                devices = parse_smi(self.fallback_xml)
                 self.last_success = now
                 return GPUReading(
                     devices=devices,
