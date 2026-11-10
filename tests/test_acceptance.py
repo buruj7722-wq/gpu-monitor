@@ -154,3 +154,43 @@ async def test_disconnect_during_websocket_accept_does_not_leak_queue(tmp_path):
 
     await endpoint(Disconnected())
     assert not app.state.runtime.clients
+
+
+async def test_asgi_cancellation_drains_websocket_tasks_and_subscription(tmp_path):
+    import anyio
+
+    app = create_app(Settings(), FakePipeline(tmp_path / "h.db"))
+    runtime = app.state.runtime
+    runtime.latest = Snapshot(timestamp=time.time())
+    endpoint = next(
+        route.endpoint for route in app.routes if getattr(route, "path", None) == "/ws/metrics"
+    )
+    sending = asyncio.Event()
+    closed = set()
+
+    class CancelledSocket:
+        headers = {}
+
+        async def accept(self):
+            return None
+
+        async def receive(self):
+            try:
+                await asyncio.Event().wait()
+            finally:
+                closed.add("receive")
+
+        async def send_json(self, data):
+            sending.set()
+            try:
+                await asyncio.Event().wait()
+            finally:
+                closed.add("send")
+
+    async with anyio.create_task_group() as group:
+        group.start_soon(endpoint, CancelledSocket())
+        await asyncio.wait_for(sending.wait(), timeout=2)
+        assert len(runtime.clients) == 1
+        group.cancel_scope.cancel()
+    assert closed == {"receive", "send"}
+    assert not runtime.clients

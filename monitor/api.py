@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
 
+import anyio
 from fastapi import FastAPI, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
@@ -141,11 +142,6 @@ def create_app(settings: Settings | None = None, pipeline: Pipeline | None = Non
         except RuntimeError:
             await websocket.close(code=1013)
             return
-        try:
-            await websocket.accept()
-        except (WebSocketDisconnect, RuntimeError):
-            runtime.unsubscribe(queue)
-            return
 
         async def receive() -> None:
             while True:
@@ -170,17 +166,25 @@ def create_app(settings: Settings | None = None, pipeline: Pipeline | None = Non
                 )
                 runtime.websocket_send_ms = (time.monotonic() - started) * 1000
 
-        tasks = [asyncio.create_task(receive()), asyncio.create_task(send())]
         try:
-            done, _ = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
-            for task in done:
-                task.result()
+            await websocket.accept()
+            async with anyio.create_task_group() as group:
+
+                async def run(function: Callable[[], Awaitable[None]]) -> None:
+                    try:
+                        await function()
+                    except (WebSocketDisconnect, RuntimeError, TimeoutError):
+                        pass
+                    finally:
+                        group.cancel_scope.cancel()
+
+                group.start_soon(run, receive)
+                group.start_soon(run, send)
         except (WebSocketDisconnect, RuntimeError, TimeoutError):
             pass
         finally:
-            for task in tasks:
-                task.cancel()
-            await asyncio.gather(*tasks, return_exceptions=True)
+            # Synchronous cleanup also runs when cancellation arrives while
+            # accepting or draining the task group; no cancellable await here.
             runtime.unsubscribe(queue)
 
     root = Path(__file__).resolve().parent.parent
