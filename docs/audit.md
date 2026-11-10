@@ -17,3 +17,19 @@ Git main and cached origin/main at d8215a5, clean worktree, existing origin
 https://github.com/buruj7722-wq/gpu-monitor.git. gh authentication invalid and API
 unreachable during audit. Remote default branch, issues, permissions, PRs and
 protection were not verified. No remote objects were created or modified.
+
+## Follow-up outside the restricted execution sandbox
+
+Read-only NVML access succeeded on the actual A40: driver 595.91.07, CUDA Driver
+13.2, Ampere, 32 C in the observed idle sample, GPU operating/slowdown/shutdown
+thresholds 88/95/98 C. These are observed values, not defaults for all GPUs.
+The initial missing-device and invalid-auth results were sandbox limitations.
+GitHub access subsequently verified main as the default branch, private
+visibility and ADMIN repository permission. Labels/milestones/issues were absent
+and have now been created as requested; no code push or PR was published.
+Rulesets/protection API returns HTTP 403 requiring a plan upgrade for this
+private repository. No protection was changed.
+
+The old systemd unit used venv without FastAPI after the repository code update,
+and was restarting. The owner explicitly approved stopping it temporarily.
+The real preview is a separate loopback process on port 5001 using .venv.

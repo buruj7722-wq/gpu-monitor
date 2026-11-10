@@ -89,7 +89,7 @@ after an approved configuration change. Keep it bound to loopback.
 
 Create a password file interactively; never put a password in command arguments:
 ```bash
-sudo htpasswd -c /etc/nginx/gpu-monitor.htpasswd monitor
+sudo htpasswd -B -c /etc/nginx/gpu-monitor.htpasswd monitor
 sudo chown root:www-data /etc/nginx/gpu-monitor.htpasswd
 sudo chmod 0640 /etc/nginx/gpu-monitor.htpasswd
 ```

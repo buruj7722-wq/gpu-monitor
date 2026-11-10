@@ -21,3 +21,14 @@ No automatic production CD. A later deployment workflow must use an environment
 with manual approval, a verified artifact, scoped credentials and rollback.
 Self-hosted GPU runners must be isolated and restricted to trusted jobs; do not
 run arbitrary fork PR code on the monitored production server.
+
+## Verified follow-up
+
+Outside the restricted sandbox, gh 2.45.0 authenticates successfully. The target
+repository is private, default main, with ADMIN access. The requested 18 scoped
+labels, seven milestones and 15 issues were created. See docs/github-issues.json
+for exact mappings. `scripts/sync_issues.py` is idempotent and dry-run by default.
+No branch was pushed and no PR was published. Rulesets and branch-protection
+APIs returned HTTP 403 requiring GitHub Pro or public visibility. Do not change
+visibility or purchase a plan automatically; that owner decision remains a
+release gate. CI files are local until push is approved.

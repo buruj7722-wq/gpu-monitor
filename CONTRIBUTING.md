@@ -18,9 +18,11 @@ Quality gate:
 .venv/bin/mypy monitor app.py gpu.py
 .venv/bin/pytest
 npm run typecheck
+npm run format:check
+npm run test:browser
 .venv/bin/python -m build --no-isolation
 .venv/bin/bandit -r monitor -c pyproject.toml
-.venv/bin/pip-audit -r requirements.txt
+.venv/bin/pip-audit --no-deps --disable-pip -r requirements-dev.txt
 .venv/bin/detect-secrets scan --exclude-files '(package-lock.json|requirements.*|static/vendor/.*|.*\\.lock)' > /tmp/gpu-monitor-secrets.json
 python scripts/check_secrets.py /tmp/gpu-monitor-secrets.json
 ```

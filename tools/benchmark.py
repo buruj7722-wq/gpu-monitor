@@ -121,7 +121,7 @@ async def benchmark(
     }
     return {
         "label": label,
-        "hardware_proof": label == "real-idle",
+        "scenario_requires_operator_validation": label != "synthetic",
         "requested_clients": clients,
         "seconds": seconds,
         "warmup_seconds": warmup,
@@ -130,6 +130,9 @@ async def benchmark(
         "process_cpu_percent": summary(cpu),
         "rss_bytes": summary(rss),
         "rss_growth_bytes": rss[-1] - rss[0] if rss else None,
+        "rss_tail_drift_bytes": statistics.mean(rss[-60:]) - statistics.mean(rss[-120:-60])
+        if len(rss) >= 120
+        else None,
         "collection_ms": summary(latency),
         "connections": summary(connection_count),
         "counter_deltas": delta,

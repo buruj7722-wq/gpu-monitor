@@ -1,0 +1,79 @@
+{
+  "label": "synthetic",
+  "requested_clients": 20,
+  "seconds": 10.0,
+  "warmup_seconds": 2.0,
+  "api_ms": {
+    "count": 10,
+    "mean": 6.709020597918425,
+    "p95": 7.468006995623,
+    "maximum": 7.468006995623
+  },
+  "websocket_delivery_ms": {
+    "count": 200,
+    "mean": 5.965384244918823,
+    "p95": 9.740352630615234,
+    "maximum": 10.78486442565918
+  },
+  "process_cpu_percent": {
+    "count": 10,
+    "mean": 1.6,
+    "p95": 3.0,
+    "maximum": 3.0
+  },
+  "rss_bytes": {
+    "count": 10,
+    "mean": 62497996.8,
+    "p95": 62525440.0,
+    "maximum": 62525440.0
+  },
+  "rss_growth_bytes": 53248.0,
+  "collection_ms": {
+    "count": 10,
+    "mean": 0.7608364001498558,
+    "p95": 0.8746999956201762,
+    "maximum": 0.8746999956201762
+  },
+  "connections": {
+    "count": 10,
+    "mean": 20.0,
+    "p95": 20.0,
+    "maximum": 20.0
+  },
+  "counter_deltas": {
+    "dropped_samples": 0,
+    "replaced_messages": 0,
+    "collection_errors": 0,
+    "collection_count": 9,
+    "database_write_bytes": 0,
+    "database_write_operations": 0
+  },
+  "client_messages": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "client_errors": [],
+  "database_bytes_per_minute": 0.0,
+  "delivery_clock_note": "Client and server must share a synchronized clock. Same-host measurements include JSON transfer and decode.",
+  "notes": [
+    "Synthetic transport fixture at 1 Hz. Not a hardware or long-duration resource budget proof."
+  ]
+}

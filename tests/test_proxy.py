@@ -56,7 +56,7 @@ def test_tls_auth_protects_http_and_websocket():
             capture_output=True,
         )
         # Only a fixture credential, never used for deployment or printed.
-        test_password = "fixture-access-only"
+        test_password = "fixture-access-only"  # pragma: allowlist secret
         digest = subprocess.run(
             ["openssl", "passwd", "-apr1", "-stdin"],
             input=test_password,
