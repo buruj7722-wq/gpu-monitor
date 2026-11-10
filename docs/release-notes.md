@@ -16,6 +16,6 @@ migration and recovery guides. No driver, CUDA, firewall or hardware setting is
 changed. LM Studio remains opt-in and does not expose inference content.
 
 Known release gates: owner-selected project license; production deployment as
-non-root; installed TLS/auth verification and reboot test; approved remote CI
-and PR review; available GitHub protection plan; AI-load/memory/multiprocess
+non-root; installed TLS/auth verification and reboot test; successful remote CI
+and PR review; explicitly approved GitHub protection settings; AI-load/memory/multiprocess
 performance scenarios not run without an approved workload window.

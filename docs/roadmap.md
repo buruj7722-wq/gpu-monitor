@@ -1,6 +1,6 @@
 # Local delivery ledger
 
-Local Lxx IDs remain stable. Real GitHub issues have been created; source branches are local and PR publication awaits approved push. No tag or release is claimed.
+Local Lxx IDs remain stable. Real GitHub issues have been created; source branches have been pushed and draft PRs published with the owner's execution authorization. No tag or release is claimed.
 
 | ID | Milestone | Branch | Depends on | Issue / PR body |
 |---|---|---|---|---|
@@ -26,6 +26,10 @@ M7 Production Release. Each branch starts at its predecessor until approved merg
 
 Do not mark remote governance complete until verified against GitHub.
 
-Implementation is prepared on the stacked local branches; issues stay open until reviewed and merged. Existing local branch names are retained; future branches use real issue numbers.
+Implementation is published on stacked branches; issues stay open until reviewed and merged. Existing local branch names are retained; future branches use real issue numbers.
 
 Follow-up for issue #10: `fix/10-websocket-accept-cleanup` closes a handshake-disconnect queue leak and has its own tested commit. The final readiness branch is stacked above it.
+
+Publication: [PR index](github-prs.json). The scoped PRs are #16–#31; #32 enables and validates pre-merge CI on dedicated integration branches. No PR has been merged.
+
+The coherent integration is [PR #33](https://github.com/buruj7722-wq/gpu-monitor/pull/33) against main. Its complete code was remotely validated on ci/12-publication-validation. Intermediate snapshots remain scoped review stages.

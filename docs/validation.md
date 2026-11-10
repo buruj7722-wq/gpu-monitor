@@ -1,8 +1,8 @@
 # Validation and release readiness — 2026-11-10
 
 Status: implemented and locally verified; **not yet an approved stable production release**.
-Source is on stacked local branches, main is unchanged. No source push, PR,
-merge, tag or release has been performed. The real preview runs on loopback
+Source branches have been pushed and scoped draft PRs #16–#32 and integration PR #33 published. Main
+is unchanged; no merge, tag or release has been performed. The real preview runs on loopback
 port 5001, independently of the old systemd unit, which the owner approved
 stopping temporarily. The preview's SQLite data lives in ignored data/preview.sqlite3.
 
@@ -27,8 +27,8 @@ stopping temporarily. The preview's SQLite data lives in ignored data/preview.sq
 | Nginx isolated TLS test | Passed: all tested paths and WSS reject unauthenticated access with 401; authenticated HTTP/WSS succeed |
 | systemd unit syntax | Passed with an existing executable substituted in a temporary copy; actual /opt executable is not installed yet |
 | SQLite online backup | Verified readable backup, integrity_check and refusal to overwrite |
-| GitHub synchronization | 15 real issues (#1–#15), seven milestones and 18 scoped labels created; repeated dry-run finds no duplicates |
-| Remote GitHub Actions | Prepared locally; not executed remotely because source push awaits approval |
+| GitHub synchronization | 15 real issues (#1–#15), seven milestones and 18 scoped labels created; scoped PRs #16–#32 and integration PR #33 published |
+| Remote GitHub Actions | Passed on integration commit c61bfbc: [complete run](https://github.com/buruj7722-wq/gpu-monitor/actions/runs/42857906742); see publication results |
 
 A pinned Starlette TestClient dependency emits one deprecation warning about
 its httpx compatibility path. Tests pass; do not hide this or describe the run
@@ -97,8 +97,8 @@ Reports are in benchmarks/synthetic-*.json. They do not include real NVML cost.
 | LM Studio live integration | Not verified | Explicitly enable against the installed documented API; mock tests passed |
 | CPU temperature | Unavailable on observed sensor API | Dashboard shows N/A; no fabricated zero |
 | Real process GPU utilization / restricted metadata | Hardware/permission dependent | Remains N/A unless the interface returns reliable recent samples |
-| Remote CI and PR review | Awaiting approved push | Publish stacked branches and PR bodies, then verify checks and review |
-| Branch protection / rulesets | Blocked by repository plan | GitHub returned 403 requiring a qualifying plan for this private repository; owner decision required |
+| Remote CI and PR review | CI passed; review pending | See docs/publication.md and PR #33 checks; independent review and explicit merge approval remain required |
+| Branch protection / rulesets | Available; awaiting approval | Owner made the repository public; rulesets API is accessible and currently empty. No protection changes applied |
 | Project LICENSE | Deferred by owner | Choose before public stable distribution |
 | Stable tag and Release | Awaiting acceptance and approval | No version tag or release has been published |
 
@@ -106,3 +106,13 @@ Do not infer deployed production safety from passing local mocks. Installation,
 certificate trust, reboot persistence and the repository's review arrangement
 must be verified in their actual environments. Follow the deployment/recovery
 and performance guides; preserve the old unit/environment/database backups.
+
+## Publication CI follow-up
+
+The remote Linux runner exposed a proxy fixture race between serving HTML and
+finishing its first sample. The fixture now waits for authenticated metrics
+readiness, with a regression test for the deliberate initial 503 contract.
+The updated mock suite has 49 tests: 48 pass and one real-GPU test is deliberately
+skipped on the hosted runner. Lint, Python/JS types, formatting, build, browser
+tests and security gates passed on c61bfbc. See publication.md for the run and PR
+links. This does not claim production installation or an independent review.

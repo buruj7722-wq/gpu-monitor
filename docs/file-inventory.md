@@ -1,6 +1,6 @@
 # Changed-file inventory
 
-Compared with the preserved main baseline d8215a5. A=added, M=modified.
+Compared with preserved main baseline d8215a5. A=added, M=modified.
 
 | Change | File |
 |---|---|
@@ -29,7 +29,9 @@ Compared with the preserved main baseline d8215a5. A=added, M=modified.
 | A | `docs/benchmarks/synthetic-100.json` |
 | A | `docs/benchmarks/synthetic-20.json` |
 | A | `docs/deployment/ubuntu.md` |
+| A | `docs/file-inventory.md` |
 | A | `docs/github-issues.json` |
+| A | `docs/github-prs.json` |
 | A | `docs/issues/L01.md` |
 | A | `docs/issues/L02.md` |
 | A | `docs/issues/L03.md` |
@@ -64,6 +66,7 @@ Compared with the preserved main baseline d8215a5. A=added, M=modified.
 | A | `docs/prs/L13.md` |
 | A | `docs/prs/L14.md` |
 | A | `docs/prs/L15.md` |
+| A | `docs/publication.md` |
 | A | `docs/release-notes.md` |
 | A | `docs/roadmap.md` |
 | A | `docs/validation.md` |
@@ -125,7 +128,6 @@ Compared with the preserved main baseline d8215a5. A=added, M=modified.
 | A | `tools/backup.py` |
 | A | `tools/benchmark.py` |
 | A | `tsconfig.json` |
-| A | `docs/file-inventory.md` |
 
 Ignored runtime/build artifacts are not committed: .venv/, data/, dist/, coverage.xml, test-results/.
 Existing venv/ and original Git history are retained. No file deletion is part of this change.

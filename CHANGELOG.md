@@ -8,7 +8,7 @@
 - Add bilingual dashboard, local charts, shared WebSocket updates, SQLite history and configurable sustained alerts.
 - Add validated TOML, structured logging, secure proxy/service templates, backup/recovery tools and automated quality checks.
 - Unavailable values are now null instead of misleading zeros. Consumers must handle null.
-- Production installation, branch protection, source publication and release remain approval gates; no tag or release is claimed.
+- Production installation, branch protection, merge and release remain approval gates. Source branches and PRs are published; no tag or release is claimed.
 
 ## Existing baseline (unversioned)
 
