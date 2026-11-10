@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools==84.2.1", "wheel==0.48.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "a40-server-monitor"
+version = "0.5.0.dev0"
+description = "Read-only NVIDIA GPU and Ubuntu resource monitoring"
+requires-python = ">=3.12"
+dynamic = ["dependencies"]
+
+[project.scripts]
+gpu-monitor = "monitor.cli:main"
+
+[tool.setuptools]
+packages = ["monitor", "monitor.collectors", "monitor.integrations"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.package-data]
+monitor = ["web/**/*", "web/*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+exclude = ["venv", ".venv", "static/vendor"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["pynvml"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
+addopts = "-ra"
+markers = ["gpu: opt-in real NVIDIA hardware tests"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "venv"]
