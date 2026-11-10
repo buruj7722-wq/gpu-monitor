@@ -1,7 +1,7 @@
 {
   "name": "gpu-monitor-dashboard",
   "private": true,
-  "version": "0.5.0-dev.0",
+  "version": "0.0.1",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "vendor": "python3 scripts/vendor_chart.py",
