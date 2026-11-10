@@ -138,3 +138,19 @@ def test_logs_do_not_include_exception_payload(tmp_path, caplog):
     assert "private conversation" not in caplog.text
     assert result.source.error == "HTTPStatusError"
     adapter.close()
+
+
+async def test_disconnect_during_websocket_accept_does_not_leak_queue(tmp_path):
+    app = create_app(Settings(), FakePipeline(tmp_path / "h.db"))
+    endpoint = next(
+        route.endpoint for route in app.routes if getattr(route, "path", None) == "/ws/metrics"
+    )
+
+    class Disconnected:
+        headers = {}
+
+        async def accept(self):
+            raise RuntimeError("test disconnect before acceptance")
+
+    await endpoint(Disconnected())
+    assert not app.state.runtime.clients

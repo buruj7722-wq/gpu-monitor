@@ -141,7 +141,11 @@ def create_app(settings: Settings | None = None, pipeline: Pipeline | None = Non
         except RuntimeError:
             await websocket.close(code=1013)
             return
-        await websocket.accept()
+        try:
+            await websocket.accept()
+        except (WebSocketDisconnect, RuntimeError):
+            runtime.unsubscribe(queue)
+            return
 
         async def receive() -> None:
             while True:
