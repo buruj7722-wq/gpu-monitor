@@ -212,6 +212,7 @@ class Snapshot(Model):
     host_id: str = "unknown"
     timestamp: float
     sequence: int = 0
+    stale_after_seconds: float = 5
     collector: Source = Field(default_factory=Source)
     gpu: GPUReading = Field(default_factory=GPUReading)
     system: SystemReading = Field(default_factory=SystemReading)

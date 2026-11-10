@@ -1,0 +1,4 @@
+include requirements.txt
+include setup.py
+recursive-include templates *.html
+recursive-include static *.js *.css *.md *.ts

@@ -1,91 +1,273 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPU Monitor</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-
-<body>
-
-<div class="container">
-
-    <h1>NVIDIA GPU Monitor</h1>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>GPU</h3>
-            <h2 id="gpu-name">Loading...</h2>
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>A40 · Server Monitor</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/vendor/chart.umd.min.js" defer></script>
+    <script src="/static/app.js" type="module"></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="#overview"
+        ><span class="brand-mark">◈</span
+        ><span>SERVER<span class="brand-sub">OBSERVATORY / A40</span></span></a
+      >
+      <p class="nav-label" data-i18n="workspace">مساحة المراقبة</p>
+      <nav aria-label="Navigation">
+        <a href="#overview"
+          ><span>▦</span><span data-i18n="overview">نظرة عامة</span></a
+        >
+        <a href="#gpu-section"
+          ><span>◈</span><span data-i18n="gpuDetails">بطاقات الرسوم</span></a
+        >
+        <a href="#server-section"
+          ><span>▤</span><span data-i18n="serverDetails">موارد السيرفر</span></a
+        >
+        <a href="#workloads"
+          ><span>⌁</span
+          ><span data-i18n="workloads">أحمال الذكاء الاصطناعي</span></a
+        >
+        <a href="#observer"
+          ><span>◎</span><span data-i18n="observer">صحة المراقبة</span></a
+        >
+      </nav>
+      <div class="sidebar-footer">
+        <span class="dot"></span
+        ><span data-i18n="readOnly">مراقبة للقراءة فقط</span
+        ><small>NVIDIA NVML · Ubuntu</small>
+      </div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div class="breadcrumb">
+          OBSERVATORY <span>/</span> <span id="hostname">—</span>
         </div>
-
-        <div class="card">
-            <h3>Temperature</h3>
-            <h2 id="temp">-- °C</h2>
+        <div class="controls">
+          <button id="theme" type="button" data-i18n="theme">المظهر</button
+          ><button id="language" type="button">English</button
+          ><span
+            id="connection"
+            class="badge warning"
+            role="status"
+            data-i18n="connecting"
+            >جارٍ الاتصال</span
+          >
         </div>
-
-        <div class="card">
-            <h3>GPU Usage</h3>
-
-            <div class="bar">
-                <div class="fill" id="gpu-bar"></div>
+      </header>
+      <section id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LIVE INFRASTRUCTURE TELEMETRY</p>
+            <h1 data-i18n="title">كل موارد السيرفر، في مكان واحد.</h1>
+            <p class="muted" data-i18n="subtitle">
+              صورة لحظية للعتاد والأحمال، مع تاريخ يساعدك على فهم التغيّرات.
+            </p>
+          </div>
+          <div class="update-box">
+            <span data-i18n="lastUpdate">آخر قراءة</span
+            ><time id="updated">—</time><small id="freshness">—</small>
+          </div>
+        </div>
+        <div
+          id="stale"
+          class="notice critical"
+          hidden
+          role="alert"
+          data-i18n="stale"
+        >
+          القراءات متقادمة؛ تحقق من خدمة جمع البيانات.
+        </div>
+        <div id="summary" class="cards"></div>
+        <div class="toolbar">
+          <div>
+            <h2 data-i18n="trends">اتجاهات الأداء</h2>
+            <p class="muted" id="history-status">—</p>
+          </div>
+          <div class="controls">
+            <label for="gpu-select" data-i18n="gpu">GPU</label
+            ><select id="gpu-select" aria-label="GPU"></select
+            ><label for="window" data-i18n="period">الفترة</label
+            ><select id="window">
+              <option value="5m" data-i18n="fiveMinutes">آخر 5 دقائق</option>
+              <option value="1h" data-i18n="oneHour">آخر ساعة</option>
+              <option value="24h" data-i18n="oneDay">آخر 24 ساعة</option>
+              <option value="7d" data-i18n="oneWeek">آخر 7 أيام</option>
+            </select>
+          </div>
+        </div>
+        <div class="charts">
+          <article class="panel">
+            <h3 data-i18n="gpuLoad">استخدام GPU وVRAM</h3>
+            <div class="chart">
+              <canvas
+                id="chart-gpu"
+                role="img"
+                aria-label="GPU and VRAM usage"
+              ></canvas>
             </div>
-
-            <h2 id="gpu-util">0%</h2>
-        </div>
-
-        <div class="card">
-            <h3>Memory</h3>
-
-            <div class="bar">
-                <div class="fill" id="mem-bar"></div>
+          </article>
+          <article class="panel">
+            <h3 data-i18n="thermalPower">الحرارة والطاقة</h3>
+            <div class="chart">
+              <canvas
+                id="chart-thermal"
+                role="img"
+                aria-label="GPU temperature and power"
+              ></canvas>
             </div>
-
-            <h2 id="memory">0 / 0 MB</h2>
+          </article>
+          <article class="panel">
+            <h3 data-i18n="cpuRam">المعالج والذاكرة</h3>
+            <div class="chart">
+              <canvas
+                id="chart-system"
+                role="img"
+                aria-label="CPU and RAM usage"
+              ></canvas>
+            </div>
+          </article>
+          <article class="panel">
+            <h3 data-i18n="network">حركة الشبكة</h3>
+            <div class="chart">
+              <canvas
+                id="chart-network"
+                role="img"
+                aria-label="Network throughput"
+              ></canvas>
+            </div>
+          </article>
         </div>
-
-        <div class="card">
-            <h3>Power</h3>
-            <h2 id="power">0 / 0 W</h2>
+        <article class="panel alert-panel">
+          <div class="panel-heading">
+            <h2 data-i18n="alerts">التنبيهات النشطة</h2>
+            <span id="alert-count" class="badge">0</span>
+          </div>
+          <div id="alerts" aria-live="polite"></div>
+        </article>
+      </section>
+      <section id="gpu-section">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">ACCELERATORS</p>
+            <h2 data-i18n="gpuDetails">بطاقات الرسوم</h2>
+          </div>
+          <span id="gpu-status" class="badge">—</span>
         </div>
-
-        <div class="card">
-            <h3>Fan</h3>
-            <h2 id="fan">0%</h2>
+        <p class="notice" data-i18n="a40Note">
+          تستخدم A40 تبريداً سلبياً يعتمد على تدفق هواء السيرفر. غياب قراءة
+          مروحة البطاقة لا يصف مراوح الهيكل.
+        </p>
+        <div id="gpus"></div>
+      </section>
+      <section id="server-section">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">HOST RESOURCES</p>
+            <h2 data-i18n="serverDetails">موارد السيرفر</h2>
+          </div>
+          <span id="system-status" class="badge">—</span>
         </div>
-
-    </div>
-
-    <h2 style="margin-top:40px;">Running Processes</h2>
-
-    <table>
-
-        <thead>
-            <tr>
-                <th>PID</th>
-                <th>Process</th>
-                <th>GPU Memory</th>
-            </tr>
-        </thead>
-
-        <tbody id="processes">
-            <tr>
-                <td colspan="3">Loading...</td>
-            </tr>
-        </tbody>
-
-    </table>
-
-    <div class="status">
-        Last Update :
-        <span id="updated">--</span>
-    </div>
-
-</div>
-
-<script src="{{ url_for('static', filename='app.js') }}"></script>
-
-</body>
+        <div class="charts">
+          <article class="panel">
+            <h3 data-i18n="cpu">المعالج</h3>
+            <div id="cpu-details" class="details"></div>
+            <h4 data-i18n="cores">استخدام الأنوية</h4>
+            <div id="cores" class="cores"></div>
+          </article>
+          <article class="panel">
+            <h3 data-i18n="memory">RAM وSwap</h3>
+            <div id="ram-details" class="details"></div>
+          </article>
+        </div>
+        <article class="panel">
+          <h3 data-i18n="storage">التخزين</h3>
+          <div class="table-scroll">
+            <table>
+              <thead id="disk-head"></thead>
+              <tbody id="disks"></tbody>
+            </table>
+          </div>
+          <h4 data-i18n="diskIo">
+            عمليات القرص — حسب الجهاز، دون جمع الطبقات المتداخلة
+          </h4>
+          <div class="table-scroll">
+            <table>
+              <thead id="io-head"></thead>
+              <tbody id="disk-io"></tbody>
+            </table>
+          </div>
+        </article>
+        <article class="panel">
+          <h3 data-i18n="network">حركة الشبكة</h3>
+          <div class="table-scroll">
+            <table>
+              <thead id="network-head"></thead>
+              <tbody id="networks"></tbody>
+            </table>
+          </div>
+        </article>
+        <article class="panel">
+          <h3 data-i18n="systemInfo">معلومات النظام</h3>
+          <div id="system-info" class="details wide"></div>
+        </article>
+      </section>
+      <section id="workloads">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">AI WORKLOADS</p>
+            <h2 data-i18n="workloads">أحمال الذكاء الاصطناعي</h2>
+          </div>
+          <span id="process-status" class="badge">—</span>
+        </div>
+        <p class="muted" data-i18n="workloadNote">
+          استخدام GPU مؤشر حمل وليس مقياساً منفرداً لجودة الاستدلال. أسماء
+          النماذج لا تُستنتج من أسماء العمليات.
+        </p>
+        <div id="activity" class="cards activity"></div>
+        <article class="panel">
+          <h3 data-i18n="gpuProcesses">العمليات التي تستخدم GPU</h3>
+          <div class="table-scroll">
+            <table>
+              <thead id="process-head"></thead>
+              <tbody id="processes"></tbody>
+            </table>
+          </div>
+          <small class="muted" data-i18n="processNote"
+            >تُحدَّث العمليات كل 5 ثوانٍ افتراضياً. قد يتجاوز CPU للعملية 100%
+            عند استخدام عدة أنوية.</small
+          >
+        </article>
+        <article class="panel">
+          <h3>LM Studio <span id="lm-status" class="badge">—</span></h3>
+          <div id="lm-models" class="model-list"></div>
+          <p class="muted" data-i18n="lmNote">
+            التكامل اختياري. Tokens/s وTTFT ومعدلات الطلبات غير متاحة عبر قراءة
+            قائمة النماذج؛ لا نجمع محتوى المحادثات.
+          </p>
+        </article>
+      </section>
+      <section id="observer">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">MONITOR HEALTH</p>
+            <h2 data-i18n="observer">صحة المراقبة</h2>
+          </div>
+          <span id="storage-status" class="badge">—</span>
+        </div>
+        <article class="panel">
+          <div id="observer-details" class="details wide"></div>
+        </article>
+      </section>
+      <footer>
+        <span>OBSERVATORY · NVIDIA A40 / UBUNTU</span
+        ><span data-i18n="footer"
+          >قيم غير متاحة تظهر N/A · لا يتحكم النظام في العتاد</span
+        >
+      </footer>
+    </main>
+  </body>
 </html>

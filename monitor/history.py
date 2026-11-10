@@ -275,7 +275,9 @@ class HistoryStore:
                         else 60
                     )
             if window != "5m" or len(points) > max_points:
-                resolution = math.ceil(max(resolution, WINDOWS[window] / max_points))
+                resolution = max(
+                    resolution, math.ceil(WINDOWS[window] / max_points / resolution) * resolution
+                )
                 points = combine(points, resolution, max_points)
             return HistoryResponse(
                 window=window,

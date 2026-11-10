@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class Pipeline:
     def __init__(self, settings: Settings) -> None:
+        self.stale_seconds = settings.stale_seconds
         self.gpu = GPUCollector(fallback=settings.gpu_fallback)
         self.system = SystemCollector(settings)
         self.processes = ProcessCollector(settings.process_seconds)
@@ -48,6 +49,7 @@ class Pipeline:
                 source=Source(status="unavailable", timestamp=now, error=type(exc).__name__)
             )
         snapshot = Snapshot(
+            stale_after_seconds=self.stale_seconds,
             host_id=self.host_id,
             timestamp=now,
             collector=Source(status="ok", timestamp=now, last_success=now),
