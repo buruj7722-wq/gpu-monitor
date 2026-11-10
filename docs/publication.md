@@ -1,5 +1,11 @@
 # Source publication and integration review — 2026-11-10
 
+Update: the owner subsequently authorized merges and release 0.0.1. PRs #33 and
+#34 are merged into main; PR #16 was marked merged automatically. PRs #17–#32
+were included through #33 and their redundant review stages were closed.
+See [release notes](release-notes.md). The report below records the earlier
+publication stage; it does not describe the current merge state.
+
 Repository: [buruj7722-wq/gpu-monitor](https://github.com/buruj7722-wq/gpu-monitor).
 Visibility is public by the owner's explicit request. Source publication was
 subsequently authorized. Default main remains at d8215a5; nothing has been

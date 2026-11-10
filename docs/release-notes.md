@@ -1,21 +1,41 @@
-# Proposed release notes — not published
+# Release 0.0.1
 
-Candidate: 0.5.0.dev0. Stable 1.0.0 is withheld until readiness gates pass.
+Initial source and package release, authorized by the owner. This version replaces
+the unpublished development label 0.5.0.dev0; it does not certify production readiness.
 
-The dashboard now combines NVIDIA GPU, Ubuntu resources, GPU workload metadata,
-historical trends and sustained alerts in one service. Unsupported sensors are
-explicitly unavailable and a missing driver no longer prevents server monitoring.
+## Included
 
-Upgrade requires a new environment with pinned FastAPI dependencies, TOML
-configuration and an approved systemd migration to a dedicated service account.
-The previous venv and Flask unit are not sufficient for the new code. Keep the
-legacy API MiB units; handle null values. New clients should use /api/metrics.
+- One shared, typed Python service for NVIDIA GPU and Ubuntu resource monitoring.
+- Nullable sensor readings and explicit source availability/freshness.
+- GPU workload metadata, opt-in LM Studio model listings, SQLite history and alerts.
+- Cached REST APIs, bounded WebSocket streaming and an Arabic/English dashboard.
+- WebSocket acceptance/cancellation cleanup, pinned CI and deployment/recovery templates.
 
-SQLite schema 1 is new; preserve backups before future upgrades. See the
-migration and recovery guides. No driver, CUDA, firewall or hardware setting is
-changed. LM Studio remains opt-in and does not expose inference content.
+Integration PR #33 and cancellation PR #34 were merged into main. Scoped PRs
+#16–#32 are included in the integration; redundant open review stages were closed.
+Release metadata is tracked under issue #15.
 
-Known release gates: owner-selected project license; production deployment as
-non-root; installed TLS/auth verification and reboot test; successful remote CI
-and PR review; explicitly approved GitHub protection settings; AI-load/memory/multiprocess
-performance scenarios not run without an approved workload window.
+## Installation and compatibility
+
+Python 3.12+ is required. Install the attached wheel in an isolated environment;
+see README.md for configuration and startup. The old Flask environment must be
+replaced before using the new service. Legacy API memory units remain MiB;
+unavailable readings are null. New consumers should use /api/metrics.
+SQLite uses schema 1. Follow docs/operations/migration.md and recovery.md and
+preserve backups before an upgrade.
+
+## Validation and limitations
+
+Local release checks passed: Ruff lint/format, strict Mypy, JavaScript types and
+formatting, 49 Python tests, two desktop/mobile browser tests, wheel/sdist build,
+vendored asset verification, Bandit, Python/npm dependency audits and secret scan.
+One opt-in real-GPU test was skipped; the Python suite reports the existing
+Starlette TestClient deprecation warning. Real-GPU checks are
+opt-in; mock success is not hardware validation. Earlier read-only A40 observations
+and idle benchmarks are recorded in docs/validation.md.
+
+Production non-root installation, trusted TLS/authentication and reboot validation
+remain outstanding, as do AI-load/memory-pressure/multiprocess benchmarks and live
+LM Studio validation. No deployment or hardware/driver/firewall changes accompany
+this release. The project license is still undecided; the bundled Chart.js license
+covers that dependency only.

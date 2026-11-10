@@ -35,3 +35,12 @@ Publication: [PR index](github-prs.json). The scoped PRs are #16–#31; #32 enab
 The coherent integration is [PR #33](https://github.com/buruj7722-wq/gpu-monitor/pull/33) against main. Its complete code was remotely validated on ci/12-publication-validation. Intermediate snapshots remain scoped review stages.
 
 Additional #10 fix: `fix/10-websocket-cancellation`, [PR #34](https://github.com/buruj7722-wq/gpu-monitor/pull/34). Its patch is included in the final integration to guarantee task and subscription cleanup during ASGI cancellation.
+
+## Release 0.0.1 follow-up
+
+The owner explicitly authorized merging and publishing version 0.0.1. Integration
+PR #33 and fix PR #34 are merged into main; scoped PR #16 was automatically marked
+merged, and redundant review PRs #17–#32 were closed because their commits were
+already included by #33. Release metadata follows issue #15 on
+`release/15-v0.0.1`. See [release notes](release-notes.md) for remaining limitations.
+Earlier publication entries above describe the state before this authorization.
