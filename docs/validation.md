@@ -116,3 +116,10 @@ The updated mock suite has 49 tests: 48 pass and one real-GPU test is deliberate
 skipped on the hosted runner. Lint, Python/JS types, formatting, build, browser
 tests and security gates passed on c61bfbc. See publication.md for the run and PR
 links. This does not claim production installation or an independent review.
+
+A later remote run found cancellation propagating out of WebSocket cleanup.
+The isolated fix in PR #34 uses an AnyIO task group, drains both socket tasks
+and always releases the subscriber slot. The regression asserts ASGI cancellation
+cleanup directly, and 100 immediate reconnect cycles passed locally. The final
+suite now contains 50 cases; latest integration checks are on PR #33. The c61bfbc
+run above is retained as baseline evidence, not a claim about the later commit.

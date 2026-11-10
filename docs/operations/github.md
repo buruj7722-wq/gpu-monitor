@@ -39,3 +39,7 @@ No automatic production CD. A future deployment workflow needs environment
 approval, a verified artifact, scoped credentials and rollback. Any self-hosted
 GPU runner must be isolated and run trusted jobs only, not arbitrary fork code
 on the production monitoring server.
+
+PR #34 isolates the ASGI cancellation cleanup regression found by hosted CI;
+its tested patch is included in the coherent integration without rewriting
+published history. See PR #33 for the latest complete validation.

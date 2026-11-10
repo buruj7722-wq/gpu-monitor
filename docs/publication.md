@@ -13,6 +13,9 @@ merged, tagged, released or installed as a production service by publication.
   integrations, history, alerts, APIs, UI, CI, validation, deployment and docs.
 - [CI validation PR #32](https://github.com/buruj7722-wq/gpu-monitor/pull/32)
   adds dedicated `ci/**` push checks and fixes the proxy startup-test race.
+- [WebSocket cancellation PR #34](https://github.com/buruj7722-wq/gpu-monitor/pull/34)
+  drains ASGI task cancellation and guarantees subscription cleanup. Its patch
+  is included in the integration branch.
 - [Machine-readable PR index](github-prs.json) records exact branch/base mappings.
   [Roadmap](roadmap.md) links issues, specifications and review bodies.
 
@@ -37,6 +40,13 @@ The first push run failed because the proxy test waited for HTML availability
 rather than completion of the collector's first sample. That race was fixed;
 a separate regression confirms the API intentionally returns 503 during
 initialization. No production behavior was weakened to pass the test.
+
+A subsequent hosted run exposed an intermittent cancellation error during
+WebSocket closure. PR #34 replaces independent asyncio cleanup tasks with an
+AnyIO task group and guarantees synchronous unsubscription, including acceptance
+cancellation. Its focused suite passed 13 tests, followed by 100 immediate
+disconnect/reconnect cycles with no leaked subscriptions. The final hosted suite
+contains 50 tests, with the real-hardware test remaining opt-in.
 
 This report/index commit changes publication documentation only. For the latest
 commit's checks, use [PR #33 checks](https://github.com/buruj7722-wq/gpu-monitor/pull/33/checks),

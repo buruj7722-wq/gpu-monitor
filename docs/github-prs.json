@@ -142,5 +142,13 @@
     "base": "main",
     "title": "Integrate A40 and Ubuntu monitoring platform",
     "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/33"
+  },
+  {
+    "local_id": "CANCEL10",
+    "issue": 10,
+    "head": "fix/10-websocket-cancellation",
+    "base": "ci/12-publication-validation",
+    "title": "Drain WebSocket tasks under ASGI cancellation",
+    "url": "https://github.com/buruj7722-wq/gpu-monitor/pull/34"
   }
 ]
