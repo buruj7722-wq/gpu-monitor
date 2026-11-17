@@ -9,7 +9,7 @@
     "format:check": "prettier --check static/app.js static/style.css static/types.d.ts templates/index.html"
   },
   "devDependencies": {
-    "@playwright/test": "1.65.0",
+    "@playwright/test": "1.65.1",
     "chart.js": "4.5.1",
     "prettier": "3.6.2",
     "typescript": "5.9.3"
